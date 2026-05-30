@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 网页标签栏小图标 -->
+    <link rel="icon" href="img/lclogo(black)1.png" type="image/png">
+    <!-- 字符编码 -->
+    <meta charset="UTF-8">
+    <!-- 移动端适配：视口宽度=设备宽度，初始缩放1.0 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网页标题 -->
+    <title>主页</title>
+    <style>
+        /* 全局样式重置：清除内外边距，盒模型统一为border-box */
+        *{
+            padding:0;
+            margin:0;
+            box-sizing:border-box
+        }
+        /* 页面整体背景、字体 */
+        body{
+            background:#fff;
+            font-family:'微软雅黑'
+        }
+        /* 顶部视频横幅容器：全屏宽、固定高度、相对定位、溢出隐藏 */
+        .top-banner{
+            width:100%;
+            height:800px;
+            min-width:400px;
+            position:relative;
+            overflow:hidden
+        }
+        /* 视频样式：绝对定位铺满父容器，保持比例居中覆盖 */
+        .top-banner video{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            object-position:center
+        }
+        /* 视频中间居中LOGO：绝对定位+transform居中，层级最高，带过渡动画 */
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 115px;
+            transition: transform 0.2s ease; 
+            will-change: transform;
+        }
+        /* 顶部导航栏：固定定位、全屏宽、最高层级、过渡动画、内边距 */
+        #head{
+            position:fixed;
+            top:0;
+            left:0;
+            width:100%;
+            z-index:999;
+            transition:all .3s ease;
+            padding:8px 30px
+        }
+        /* 导航菜单列表：清除默认样式、固定宽度、弹性布局、过渡 */
+        #head ul{
+            list-style:none;
+            width:750px;
+            display:flex;
+            align-items:center;
+            transition:all .3s ease;
+            padding:0 10px
+        }
+        /* 导航栏滚动后白色背景样式：白底+阴影 */
+        #head.nav-white{
+            background:#fff;
+            box-shadow:0 2px 10px rgba(0,0,0,.1)
+        }
+        /* 导航栏左侧小LOGO：宽度、过渡、垂直居中 */
+        #head .logo-img{
+            width:40px;
+            transition:all .3s ease;
+            vertical-align:middle
+        }
+        /* 导航菜单项：固定宽度、居中、字体大小、行高、不换行 */
+        #head li{
+            width:125px;
+            text-align:center;
+            font-size:16px;
+            line-height:40px;
+            white-space:nowrap
+        }
+        /* 导航链接：清除下划线、默认颜色、行内块、过渡动画 */
+        #head a{
+            text-decoration:none;
+            color:#e1e1e1;
+            display:inline-block;
+            transition:transform .85s ease,color .3s ease
+        }
+        /* 当前页面激活链接样式：白色 */
+        #head a.active{
+            color:#fff
+        }
+        /* 白色导航栏下的链接默认颜色 */
+        #head.nav-white a{
+            color:#666
+        }
+        /* 白色导航栏下激活链接颜色：黑色 */
+        #head.nav-white a.active{
+            color:#000
+        }
+        /* 导航链接悬浮效果：放大+变白 */
+        #head a:hover{
+            transform:scale(1.1);
+            color:#fff
+        }
+        /* 白色导航栏下链接悬浮：变黑 */
+        #head.nav-white a:hover{
+            color:#000
+        }
+        /* 移动端响应式（768px以下）：导航栏内边距、列表宽度、菜单项、LOGO、悬浮效果 */
+        @media (max-width:768px){
+            #head{
+                padding:10px 15px
+            }
+            #head ul{
+                width:100%
+            }
+            #head li{
+                width:auto;
+                flex:1;
+                font-size:12px;
+                line-height:30px
+            }
+            #head .logo-img{
+                width:30px
+            }
+            #head a:hover{
+                transform:scale(1)
+            }
+        }
+        /* 中间卡片容器：最大宽度、居中、外边距、内边距、弹性布局、间距、居中排列 */
+        #box{
+            width:100%;
+            max-width:1400px;
+            margin:90px auto;
+            padding:0 20px;
+            display:flex;
+            gap:20px;
+            justify-content:center
+        }
+        /* 卡片链接样式：最小宽度、自适应、最大宽度、固定高度、相对定位、无圆角、溢出隐藏、块级 */
+        .link-card{
+            min-width:300px;
+            flex:1;
+            max-width:450px;
+            height:500px;
+            position:relative;
+            border-radius:0;
+            overflow:hidden;
+            text-decoration:none;
+            display:block
+        }
+        /* 卡片图片：铺满容器、保持比例、过渡动画 */
+        .card-img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+            transition:transform .5s ease
+        }
+        /* 卡片悬浮图片放大效果 */
+        .link-card:hover .card-img{
+            transform:scale(1.05)
+        }
+        /* 卡片遮罩层：绝对定位底部、渐变背景、内边距、过渡 */
+        .card-overlay{
+            position:absolute;
+            bottom:0;
+            left:0;
+            right:0;
+            padding:40px 30px;
+            background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,.4) 50%,transparent 100%);
+            transition:all .3s ease
+        }
+        /* 卡片标题：字体大小、白色、加粗、下边距、上移动画 */
+        .card-title{
+            font-size:22px;
+            color:#fff;
+            font-weight:600;
+            margin-bottom:10px;
+            transition:transform .3s ease
+        }
+        /* 卡片描述：字体大小、半透明白色、行高、下边距、上移动画 */
+        .card-desc{
+            font-size:14px;
+            color:rgba(255,255,255,.9);
+            line-height:1.6;
+            margin-bottom:15px;
+            transition:transform .3s ease
+        }
+        /* 卡片“了解更多”：绝对定位不占空间、默认隐藏、弹性布局、间距、过渡 */
+        .card-more{
+            font-size:14px;
+            color:#fff;
+            display:flex;
+            align-items:center;
+            gap:8px;
+            opacity:0;
+            transform:translateY(30px);
+            transition:all .3s ease;
+            position:absolute;
+            bottom:15px;
+            left:30px;
+        }
+        /* 更多按钮右侧箭头伪元素 */
+        .card-more::after{
+            content:'>';
+            font-size:16px;
+            color:#ff4444
+        }
+        /* 卡片悬浮：标题/描述上移 */
+        .link-card:hover .card-title,
+        .link-card:hover .card-desc{
+            transform:translateY(-25px)
+        }
+        /* 卡片悬浮：更多按钮从下到上滑动显示 */
+        .link-card:hover .card-more{
+            opacity:1;
+            transform:translateY(-25px)
+        }
+        /* 平板响应式（960px以下）：卡片换行、全屏宽、降低高度 */
+        @media (max-width:960px){
+            #box{
+                flex-wrap:wrap
+            }
+            .link-card{
+                width:100%;
+                max-width:100%;
+                height:400px
+            }
+        }
+        /* 底部版权文字：最大宽度、居中、外边距、居中对齐、行高、颜色、字体大小 */
+        .texta1{
+            max-width:600px;
+            margin:200px auto 10px;
+            text-align:center;
+            line-height:1.8;
+            color:#444;
+            font-size:11px
+        }
+        /* 底部文字内小图标 */
+        .texta1 img{
+            width:25px;
+            margin-left:6px;
+            vertical-align:middle
+        }
+        .gd{
+            margin:90px auto;
+        }
+        .gd h2{
+            font-size:32px;
+            font-weight:600;
+            color:#444;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部视频横幅区域 -->
+    <div class="top-banner">
+        <!-- 自动播放、静音、循环、移动端内联播放视频 -->
+        <video src="img/zy1.mp4" autoplay muted loop playsinline></video>
+        
+        <!-- 视频中间居中LOGO图片 -->
+        <img src="img/lclogo2.png" class="center-logo" alt="中心LOGO">
+
+        <!-- 顶部固定导航栏 -->
+        <div id="head">
+            <ul>
+                <li><img class="logo-img" src="img/lclogo2.png" alt=""></li>
+                <li><a href="index.html" class="active">主页</a></li>
+                <li><a href="files/music.html">喜欢的音乐</a></li>
+                <li><a href="files/hobby.html">我的爱好</a></li>
+                <li><a href="files/game.html">游戏</a></li>
+                <li><a href="files/about.html">关于</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="gd">
+        <h2>更多</h2>
+    </div>
+    <!-- 中间功能卡片区域 -->
+    <div id="box">
+        <!-- 音乐卡片 -->
+        <a href="files/music.html" class="link-card">
+            <img src="img/muscover.jpg" class="card-img" alt="">
+            <div class="card-overlay">
+                <div class="card-title">音乐</div>
+                <div class="card-desc">我日常喜爱的音乐曲目</div>
+                <div class="card-more">了解更多</div>
+            </div>
+        </a>
+        <!-- 爱好卡片 -->
+        <a href="files/hobby.html" class="link-card">
+            <img src="img/hbh1.jpg" class="card-img" alt="">
+            <div class="card-overlay">
+                <div class="card-title">我的爱好</div>
+                <div class="card-desc">该页面是我的爱好</div>
+                <div class="card-more">了解更多</div>
+            </div>
+        </a>
+        <!-- 游戏卡片 -->
+        <a href="files/about.html" class="link-card">
+            <img src="img/lclogo2.png" class="card-img" alt="">
+            <div class="card-overlay">
+                <div class="card-title">关于</div>
+                <div class="card-desc">...</div>
+                <div class="card-more">了解更多</div>
+            </div>
+        </a>
+    </div>
+
+<script>
+// 获取页面核心元素：导航栏、导航LOGO、顶部横幅
+const head=document.querySelector('#head');
+const logoImg=document.querySelector('.logo-img');
+const banner=document.querySelector('.top-banner');
+
+// 监听页面滚动事件：实现导航栏背景/LOGO切换
+window.addEventListener('scroll',()=>{
+    // 判断：当顶部横幅完全滚出屏幕时 → 导航变白+切换黑色LOGO；否则恢复透明+白色LOGO
+    banner.getBoundingClientRect().bottom<0?(head.classList.add('nav-white'),logoImg.src='img/lclogo(black)2.png'):(head.classList.remove('nav-white'),logoImg.src='img/lclogo2.png')
+})
+
+// 中心LOGO鼠标跟随互动效果
+const centerLogo = document.querySelector('.center-logo');
+// 监听鼠标移动事件
+document.addEventListener('mousemove', (e) => {
+
+  // 计算鼠标在屏幕中的相对位置（-0.5 ~ 0.5）
+  const x = e.clientX / window.innerWidth - 0.5;
+  const y = e.clientY / window.innerHeight - 0.5;
+
+  // 根据鼠标位置计算旋转角度（X轴/Y轴）
+  const tiltX = y * -30;
+  const tiltY = x * 30;
+
+  // 根据鼠标位置计算位移距离
+  const moveX = x * 10;
+  const moveY = y * 10;
+
+  // 应用变换：居中 + 位移 + 3D旋转 + 缩放
+  centerLogo.style.transform = `
+    translate(-55%, -55%)
+    translateX(${moveX}px)
+    translateY(${moveY}px)
+    rotateX(${tiltX}deg)
+    rotateY(${tiltY}deg)
+    scale3d(1,1,1)
+  `;
+});
+
+// 鼠标离开页面时：LOGO恢复原始居中位置
+document.addEventListener('mouseleave', () => {
+  centerLogo.style.transform = 'translate(-50%, -50%)';
+});
+</script>
+
+    <!-- 底部版权说明文字 -->
+    <div class="texta1">
+        <p>这是我做的一个介绍我自己的网站，主页背景视频均为我自己拍摄,这个网站也仅为我初级尝试，可能也会有许多的问题，见谅。</p>
+        <p>制作者：梁策<img src="img/lclogo(black)2.png" alt="">&copy;</p>
+    </div>
+</body>
+</html>

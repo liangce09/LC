@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="../img/lclogo(black)1.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的爱好</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        #head{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 8px 30px;
+        }
+        #head ul{
+            list-style-type: none;
+            width: 750px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+        #head .logo-img{
+            width: 40px;
+            vertical-align: middle;
+        }
+        #head li{
+            width: 125px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 40px;
+            white-space: nowrap;
+        }
+        #head a{
+            text-decoration: none;
+            color: #666;
+            display: inline-block;
+            transition: transform 0.85s ease, color 0.3s ease;
+        }
+        #head a.active {
+            color: #000;
+        }
+        #head a:hover {
+            transform: scale(1.10);
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            #head{
+                padding: 10px 15px !important;
+            }
+            #head ul{
+                width: 100% !important;
+            }
+            #head li{
+                width: auto !important;
+                flex: 1;
+                font-size: 12px;
+                line-height: 30px;
+            }
+            #head .logo-img{
+                width: 30px;
+            }
+            #head a:hover {
+                transform: scale(1);
+            }
+        }
+
+        body{
+            background-color: #f5f5f5;
+            padding: 80px 20px 60px;
+        }
+
+        .hobby-title{
+            font-size: 36px;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .gallery{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gallery-item{
+            background: #fff;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .gallery-item:hover{
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img{
+            width: 100%;
+            display: block;
+        }
+
+        .gallery-info{
+            padding: 20px 25px;
+            border-top: 1px solid #eee;
+            position: relative;
+        }
+
+        .hover-hint{
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%) translateX(10px);
+            color: #000;
+            font-size: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .hover-hint{
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        .gallery-item.vertical img{
+            height: 650px;
+            object-fit: cover;
+        }
+
+        .gallery-item.vertical.top-crop img{
+            object-position: top;
+        }
+
+        .gallery-item.horizontal img{
+            height: 380px;
+            object-fit: cover;
+        }
+
+        .gallery-item.large-horizontal img{
+            height: 450px;
+            object-fit: cover;
+        }
+
+        .gallery-item.full-width{
+            grid-column: span 2;
+        }
+
+        .gallery-item.full-width img{
+            height: auto;
+            object-fit: contain;
+            max-height: 500px;
+        }
+
+        .gallery-info h4{
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .gallery-info p{
+            font-size: 13px;
+            color: #888;
+        }
+
+        .section-divider{
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .section-divider span{
+            font-size: 24px;
+            color: #fff;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+
+        .section-divider .hiking{
+            background: linear-gradient(135deg, #2E7D32, #388E3C);
+        }
+
+        .section-divider .racing{
+            background: linear-gradient(135deg, #E65100, #FF7043);
+        }
+
+        .f1-info{
+            background: #1a1a1a;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 1600px;
+        }
+
+        .f1-info h3{
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .f1-info .team-info{
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .f1-info .team-item{
+            text-align: center;
+        }
+
+        .f1-info .team-item h4{
+            font-size: 28px;
+            color: #ff8c00;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .f1-info .team-item p{
+            font-size: 14px;
+            color: #999;
+        }
+
+        .f1-info .description{
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+        }
+
+        .f1-info .description p{
+            font-size: 15px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px){
+            body{
+                padding: 70px 10px 40px;
+            }
+            .hobby-title{
+                font-size: 26px;
+                margin-bottom: 30px;
+            }
+            .gallery{
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .gallery-item.full-width{
+                grid-column: span 1;
+            }
+            .gallery-item.vertical img{
+                height: 450px;
+            }
+            .gallery-item.horizontal img{
+                height: 280px;
+            }
+            .gallery-item.large-horizontal img{
+                height: 320px;
+            }
+            .gallery-item.full-width img{
+                height: auto;
+                max-height: 350px;
+            }
+            .gallery-info{
+                padding: 15px 20px;
+            }
+            .gallery-info h4{
+                font-size: 16px;
+            }
+            .section-divider{
+                margin: 40px 0;
+            }
+            .section-divider span{
+                font-size: 18px;
+                padding: 10px 30px;
+            }
+            .f1-info{
+                padding: 30px 20px;
+                margin: 30px 0;
+            }
+            .f1-info h3{
+                font-size: 20px;
+            }
+            .f1-info .team-info{
+                gap: 40px;
+            }
+            .f1-info .team-item h4{
+                font-size: 22px;
+            }
+        }
+        .texta1{
+            max-width:600px;
+            margin:200px auto 10px;
+            text-align:center;
+            line-height:1.8;
+            color:#444;
+            font-size:11px
+        }
+        .texta1 img{
+            width:25px;
+            margin-left:6px;
+            vertical-align:middle
+        }
+    </style>
+</head>
+<body>
+    <div id="head">
+        <ul>
+            <li><img class="logo-img" src="../img/lclogo(black)2.png" alt=""></li>
+            <li><a href="../index.html">主页</a></li>
+            <li><a href="../files/music.html">喜欢的音乐</a></li>
+            <li><a href="../files/hobby.html" class="active">我的爱好</a></li>
+            <li><a href="../files/game.html">游戏</a></li>
+            <li><a href="../files/about.html">关于</a></li>
+        </ul>
+    </div>
+
+    <h2 class="hobby-title">我的爱好</h2>
+
+    <h3 class="section-divider"><span class="hiking">爬山 户外徒步</span></h3>
+    
+    <div class="gallery">
+        <a href="../img/hb1.jpg" target="_blank" class="gallery-item vertical">
+            <img src="../img/hb1.jpg" alt="爬山照片1">
+            <div class="gallery-info">
+                <h4>山间小径</h4>
+                <p>迷雾中的登山之路</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb2.jpg" target="_blank" class="gallery-item vertical">
+            <img src="../img/hb2.jpg" alt="爬山照片2">
+            <div class="gallery-info">
+                <h4>山巅远眺</h4>
+                <p>俯瞰城市全景</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb3.jpg" target="_blank" class="gallery-item vertical">
+            <img src="../img/hb3.jpg" alt="爬山照片3">
+            <div class="gallery-info">
+                <h4>石阶步道</h4>
+                <p>蜿蜒曲折的山路</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb4.jpg" target="_blank" class="gallery-item vertical">
+            <img src="../img/hb4.jpg" alt="爬山照片4">
+            <div class="gallery-info">
+                <h4>高山草甸</h4>
+                <p>蓝天白云下的草原</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb5.jpg" target="_blank" class="gallery-item horizontal">
+            <img src="../img/hb5.jpg" alt="爬山照片5">
+            <div class="gallery-info">
+                <h4>盘山公路</h4>
+                <p>曲折的山路风景</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb6.jpg" target="_blank" class="gallery-item large-horizontal">
+            <img src="../img/hb6.jpg" alt="爬山照片6">
+            <div class="gallery-info">
+                <h4>层峦叠嶂</h4>
+                <p>连绵起伏的山脉</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+    </div>
+
+    <h3 class="section-divider"><span class="racing">赛车</span></h3>
+    
+    <div class="gallery">
+        <a href="../img/hb7.jpg" target="_blank" class="gallery-item vertical top-crop">
+            <img src="../img/hb7.jpg" alt="兰多·诺里斯">
+            <div class="gallery-info">
+                <h4>兰多·诺里斯</h4>
+                <p>迈凯伦车队车手</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb8.jpg" target="_blank" class="gallery-item horizontal">
+            <img src="../img/hb8.jpg" alt="迈凯伦赛车">
+            <div class="gallery-info">
+                <h4>迈凯伦MCL39</h4>
+                <p>2025赛季赛车</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+        <a href="../img/hb9.jpg" target="_blank" class="gallery-item full-width">
+            <img src="../img/hb9.jpg" alt="迈凯伦车队">
+            <div class="gallery-info">
+                <h4>迈凯伦车队</h4>
+                <p>橙色军团</p>
+                <div class="hover-hint">点击浏览图片</div>
+            </div>
+        </a>
+    </div>
+
+    <div class="f1-info">
+        <h3>🏆 我最喜欢的车队和车手</h3>
+        <div class="team-info">
+            <div class="team-item">
+                <h4>迈凯伦F1车队</h4>
+                <p>McLaren Formula 1 Team</p>
+            </div>
+            <div class="team-item">
+                <h4>兰多·诺里斯</h4>
+                <p>Lando Norris</p>
+            </div>
+        </div>
+        <div class="description">
+            <p>迈凯伦车队是F1历史上最成功的车队之一，以其标志性的橙色涂装而闻名。兰多·诺里斯是一位年轻有为的英国车手，以其出色的驾驶技术和活泼的个性深受车迷喜爱。</p>
+        </div>
+    </div>
+        <div class="texta1">
+        <p>制作者：梁策<img src="../img/lclogo(black)2.png" alt=""></p>
+    </div>
+</body>
+</html>

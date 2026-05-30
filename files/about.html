@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../img/lclogo(black)1.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+
+        #head{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 8px 30px;
+        }
+        #head ul{
+            list-style-type: none;
+            width: 750px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            background: transparent;
+            padding: 0 10px;
+        }
+        #head .logo-img{
+            width: 40px;
+            vertical-align: middle;
+        }
+        #head li{
+            width: 125px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 40px;
+            white-space: nowrap;
+        }
+        #head a{
+            text-decoration: none;
+            color: #666;
+            display: inline-block;
+            transition: transform 0.85s ease, color 0.3s ease;
+        }
+        #head a.active {
+            color: #000;
+        }
+        #head a:hover {
+            transform: scale(1.10);
+            color: #000;
+        }
+
+        /* 移动端导航 */
+        @media (max-width: 768px) {
+            #head{
+                padding: 10px 15px !important;
+            }
+            #head ul{
+                width: 100% !important;
+            }
+            #head li{
+                width: auto !important;
+                flex: 1;
+                font-size: 12px;
+                line-height: 30px;
+            }
+            #head .logo-img{
+                width: 30px;
+            }
+            #head a:hover {
+                transform: scale(1);
+            }
+        }
+
+        /* 页面整体样式（给顶部留出导航栏高度） */
+        body{
+            background-color: #f7f7f7;
+            padding: 120px 20px 40px; /* 顶部撑开，不被导航盖住 */
+        }
+        .about-title{
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .about-content{
+            margin: 0 auto;
+            max-width: 800px;
+            min-width: 300px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .about-content p{
+            margin: 10px 0;
+        }
+        .thoughts-section{
+            max-width: 800px;
+            margin: 50px auto 30px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            text-align: left;
+        }
+        .thoughts-header{
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .thoughts-title{
+            font-size: 24px;
+            font-weight: 300;
+            margin-bottom: 6px;
+            letter-spacing: 3px;
+            color: #333;
+        }
+        .thoughts-subtitle{
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 2px;
+        }
+        .thoughts-entry{
+            margin-bottom: 18px;
+            padding: 18px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .thoughts-entry-title{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .thoughts-entry-date{
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .thoughts-entry-date::before{
+            content: "📅";
+        }
+        .thoughts-content{
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+        .thoughts-footer{
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 15px;
+        }
+        .thoughts-date{
+            font-size: 12px;
+            color: #bbb;
+        }
+        .texta1{
+            max-width:600px;
+            margin:200px auto 10px;
+            text-align:center;
+            line-height:1.8;
+            color:#444;
+            font-size:11px
+        }
+        /* 底部文字内小图标 */
+        .texta1 img{
+            width:25px;
+            margin-left:6px;
+            vertical-align:middle
+        }
+    </style>
+</head>
+<body>
+    <div id="head">
+        <ul>
+            <li><img class="logo-img" src="../img/lclogo(black)2.png" alt=""></li>
+            <li><a href="../index.html">主页</a></li>
+            <li><a href="../files/music.html">喜欢的音乐</a></li>
+            <li><a href="../files/hobby.html">我的爱好</a></li>
+            <li><a href="../files/game.html">游戏</a></li>
+            <li><a href="../files/about.html" class="active">关于</a></li>
+        </ul>
+    </div>
+        <h2 class="about-title">关于我</h2>
+        <div class="about-content">
+            <p>你好，我是一个在猎户座悬臂上的一个地球人，2009年7月1日出生在深圳，目前正在广州上学，呃，然后就没什么好说的了，因为目前感觉没什么好写的，脑字中也没有涌现的灵感，等到时间了，等有想法了，我自己会写在这...</p>
+        </div>
+
+        <div class="thoughts-section">
+            <div class="thoughts-header">
+                <h3 class="thoughts-title">随</h3>
+            </div>
+
+            <div class="thoughts-entry">
+                <h4 class="thoughts-entry-title">测试一</h4>
+                <div class="thoughts-entry-date">2026年5月15日</div>
+                <div class="thoughts-content">
+                    合乎理性的东西都是现实的
+                    现实的东西都是合乎理性的
+                </div>
+            </div>
+
+            <div class="thoughts-footer">
+                <div class="thoughts-date">—— 待续 ——</div>
+            </div>
+        </div>
+        <div class="texta1">
+            <p>制作者：梁策<img src="../img/lclogo(black)2.png" alt=""></p>
+        </div>
+</body>
+</html>
