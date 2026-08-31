@@ -24,8 +24,8 @@
         /* 顶部视频横幅容器：全屏宽、固定高度、相对定位、溢出隐藏 */
         .top-banner{
             width:100%;
-            height:920px;
-            min-width:400px;
+            height:100vh;
+            min-height:80px;
             position:relative;
             overflow:hidden
         }
@@ -116,22 +116,133 @@
         #head.nav-white a:hover{
             color:#000
         }
-        /* 移动端响应式（768px以下）：导航栏内边距、列表宽度、菜单项、LOGO、悬浮效果 */
+        /* 汉堡按钮：桌面端隐藏，移动端显示（默认白色，适配视频上的透明导航） */
+        .nav-toggle{
+            display:none;
+            width:38px;
+            height:38px;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            gap:5px;
+            background:none;
+            border:none;
+            cursor:pointer;
+            padding:0
+        }
+        .nav-toggle span{
+            display:block;
+            width:22px;
+            height:2px;
+            background:#fff;
+            transition:all .3s ease
+        }
+        /* 白色导航栏时汉堡变深色 */
+        #head.nav-white .nav-toggle span{
+            background:#333
+        }
+        /* 展开时汉堡变 X */
+        .nav-toggle.open span:nth-child(1){
+            transform:translateY(7px) rotate(45deg)
+        }
+        .nav-toggle.open span:nth-child(2){
+            opacity:0
+        }
+        .nav-toggle.open span:nth-child(3){
+            transform:translateY(-7px) rotate(-45deg)
+        }
+        /* 移动端抽屉菜单遮罩 */
+        .nav-mask{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.45);
+            opacity:0;
+            pointer-events:none;
+            transition:opacity .3s ease;
+            z-index:1000
+        }
+        /* 移动端抽屉菜单：默认藏在屏幕右侧外，滑入动画 */
+        .nav-drawer{
+            position:fixed;
+            top:0;
+            right:0;
+            width:240px;
+            height:100vh;
+            max-width:80vw;
+            background:#fff;
+            transform:translateX(100%);
+            transition:transform .3s ease;
+            z-index:1001;
+            overflow-y:auto;
+            box-shadow:-2px 0 12px rgba(0,0,0,.08)
+        }
+        /* 移动端顶部左侧LOGO：桌面端隐藏 */
+        .head-logo{
+            display:none;
+            line-height:0;
+            text-decoration:none
+        }
+        .nav-drawer ul{
+            list-style:none;
+            padding:10px 0 20px;
+            margin:0;
+            width:auto;
+            display:block
+        }
+        .nav-drawer li{
+            width:auto;
+            margin:0;
+            line-height:normal
+        }
+        .nav-drawer li a{
+            display:block;
+            padding:15px 24px;
+            background:transparent;
+            color:#333;
+            font-size:18px;
+            font-weight:400;
+            letter-spacing:1px;
+            text-decoration:none;
+            transform:none;
+            transition:background .2s ease,color .2s ease
+        }
+        /* 仅当前页高亮灰色 */
+        .nav-drawer li a.active{
+            color:#000;
+            background:#f0f0f0;
+            font-weight:600
+        }
+        .nav-drawer li a:hover{
+            transform:none;
+            color:#000;
+            background:#f7f7f7
+        }
+        .nav-mask.show{
+            opacity:1;
+            pointer-events:auto
+        }
+        .nav-drawer.open{
+            transform:translateX(0)
+        }
+        /* 移动端响应式（768px以下）：隐藏横向菜单，左LOGO+右汉堡按钮 */
         @media (max-width:768px){
             #head{
-                padding:10px 15px
+                padding:10px 15px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center
             }
             #head ul{
-                width:100%
+                display:none
             }
-            #head li{
-                width:auto;
-                flex:1;
-                font-size:12px;
-                line-height:30px
+            .head-logo{
+                display:block
             }
-            #head .logo-img{
-                width:30px
+            .head-logo .logo-img{
+                width:32px
+            }
+            .nav-toggle{
+                display:flex
             }
             #head a:hover{
                 transform:scale(1)
@@ -275,6 +386,8 @@
 
         <!-- 顶部固定导航栏 -->
         <div id="head">
+            <!-- 移动端左侧LOGO（桌面端隐藏） -->
+            <a href="index.html" class="head-logo"><img class="logo-img" src="img/lclogo2.png" alt=""></a>
             <ul>
                 <li><img class="logo-img" src="img/lclogo2.png" alt=""></li>
                 <li><a href="index.html" class="active">主页</a></li>
@@ -283,8 +396,23 @@
                 <li><a href="files/game.html">游戏</a></li>
                 <li><a href="files/about.html">关于</a></li>
             </ul>
+            <!-- 移动端汉堡按钮 -->
+            <button class="nav-toggle" id="navToggle" aria-label="打开菜单">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </div>
+    <!-- 移动端抽屉菜单：遮罩 + 右侧滑入面板 -->
+    <div class="nav-mask" id="navMask"></div>
+    <nav class="nav-drawer" id="navDrawer">
+        <ul>
+            <li><a href="index.html" class="active">主页</a></li>
+            <li><a href="files/music.html">喜欢的音乐</a></li>
+            <li><a href="files/hobby.html">我的爱好</a></li>
+            <li><a href="files/game.html">游戏</a></li>
+            <li><a href="files/about.html">关于</a></li>
+        </ul>
+    </nav>
     <div class="gd">
         <h2>更多</h2>
     </div>
@@ -320,15 +448,17 @@
     </div>
 
 <script>
-// 获取页面核心元素：导航栏、导航LOGO、顶部横幅
+// 获取页面核心元素：导航栏、所有导航LOGO（含移动端左侧LOGO）、顶部横幅
 const head=document.querySelector('#head');
-const logoImg=document.querySelector('.logo-img');
+const logoImgs=document.querySelectorAll('.logo-img');
 const banner=document.querySelector('.top-banner');
 
 // 监听页面滚动事件：实现导航栏背景/LOGO切换
 window.addEventListener('scroll',()=>{
     // 判断：当顶部横幅完全滚出屏幕时 → 导航变白+切换黑色LOGO；否则恢复透明+白色LOGO
-    banner.getBoundingClientRect().bottom<0?(head.classList.add('nav-white'),logoImg.src='img/lclogo(black)2.png'):(head.classList.remove('nav-white'),logoImg.src='img/lclogo2.png')
+    const white=banner.getBoundingClientRect().bottom<0;
+    head.classList.toggle('nav-white',white);
+    logoImgs.forEach(img=>img.src=white?'img/lclogo(black)2.png':'img/lclogo2.png');
 })
 
 // 中心LOGO鼠标跟随互动效果
@@ -363,6 +493,22 @@ document.addEventListener('mousemove', (e) => {
 document.addEventListener('mouseleave', () => {
   centerLogo.style.transform = 'translate(-50%, -50%)';
 });
+
+// 移动端抽屉菜单开关
+const navToggle=document.getElementById('navToggle');
+const navDrawer=document.getElementById('navDrawer');
+const navMask=document.getElementById('navMask');
+// open=true 抽屉滑入并锁定页面滚动，false 收起
+function setDrawer(open){
+    navDrawer.classList.toggle('open',open);
+    navMask.classList.toggle('show',open);
+    navToggle.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+}
+navToggle.addEventListener('click',()=>setDrawer(!navDrawer.classList.contains('open')));
+navMask.addEventListener('click',()=>setDrawer(false));
+// 点击抽屉里的链接后自动收起
+navDrawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setDrawer(false)));
 </script>
 
     <!-- 底部版权说明文字 -->
