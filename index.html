@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -176,8 +177,8 @@
             overflow-y:auto;
             box-shadow:-2px 0 12px rgba(0,0,0,.08)
         }
-        /* 移动端顶部左侧LOGO：桌面端隐藏 */
-        .head-logo{
+        /* 移动端顶部左侧LOGO：桌面端隐藏（#head 提高优先级，避免被 #head a 覆盖） */
+        #head .head-logo{
             display:none;
             line-height:0;
             text-decoration:none
@@ -235,10 +236,10 @@
             #head ul{
                 display:none
             }
-            .head-logo{
+            #head .head-logo{
                 display:block
             }
-            .head-logo .logo-img{
+            #head .head-logo .logo-img{
                 width:32px
             }
             .nav-toggle{
